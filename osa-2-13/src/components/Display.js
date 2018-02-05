@@ -63,6 +63,7 @@ const Display = ({ countries, filter, displayedCountry,changeDisplayedCountry })
                 {filteredList.map(country =>
                     <li key={country.numericCode}
                         onClick={() => changeDisplayedCountry(country)}
+                        className = "linkAppearance"
                         /* {debugViesti} */>{country.name}</li>
                 )}
             </ul>
