@@ -42,7 +42,7 @@ const Display = ({ countries, filter, displayedCountry,changeDisplayedCountry })
     }
     console.log("Filter: ", filter)
     if (countries.length === 0) {
-        return ("No results")
+        return ("Initializing")
     }
     const filteredList = countries.filter(country =>
         country.name.toLowerCase().includes(filter.toLowerCase())
@@ -53,6 +53,9 @@ const Display = ({ countries, filter, displayedCountry,changeDisplayedCountry })
 
     console.log(`displayedCountry: ${displayedCountry}`)
     
+    if(filteredList.length===0) {
+        return("No matches found")
+    }
 
     if (filteredList.length < 10 && filteredList.length > 1) {
         /* if(displayedCountry!==null) {
