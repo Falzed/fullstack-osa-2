@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import Filtteri from './components/Filtteri';
 import Display from './components/Display';
-import SingleCountry from './components/SingleCountry';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,11 +9,11 @@ class App extends React.Component {
     this.state = {
       countries: [],
       filter: '',
-      displayedCountry: ''
+      displayedCountry: null
     }
   }
 
-  findByName = ({ name, countries }) => {
+  /*findByName = ({ name, countries }) => {
     let country = null;
     for (let i = 0; i < countries.length; i++) {
       if (countries[i].name === name) {
@@ -23,14 +22,11 @@ class App extends React.Component {
       }
     }
     return country
-  }
+  } */
 
-  changeDisplayedCountry = (event) => {
-    const uusiValtio = this.findByName({
-      name: event.target.value,
-      countries: this.state.countries
-    })
-    this.setState({ displayedCountry: uusiValtio })
+  changeDisplayedCountry = (country) => {
+    console.log(country)
+    this.setState({ displayedCountry: country })
   }
 
   componentWillMount() {
@@ -41,21 +37,24 @@ class App extends React.Component {
       })
   }
   handleFilterChange = (event) => {
-    this.setState({ filter: event.target.value })
+    this.setState({
+       filter: event.target.value,
+       displayedCountry: null
+     })
   }
 
   render() {
-    if (this.state.displayedCountry === '') {
       return (
         <div>
           <Filtteri filter={this.state.filter}
             handleFilterChange={this.handleFilterChange} />
           <Display countries={this.state.countries}
             filter={this.state.filter}
+            displayedCountry = {this.state.displayedCountry}
             changeDisplayedCountry={this.changeDisplayedCountry} />
         </div>
       )
-    } else {
+       /*else {
       return (
         <div>
           <Filtteri filter={this.state.filter}
@@ -63,7 +62,7 @@ class App extends React.Component {
           <SingleCountry country={this.state.displayedCountry} />
         </div>
       )
-    }
+    } */
   }
 }
 
