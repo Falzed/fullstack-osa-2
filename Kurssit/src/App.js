@@ -44,6 +44,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Opetussuunnitelma</h1>
       <ul>
         {kurssit.map(kurssi =>
         <li key={kurssi.id}><Kurssi kurssi={kurssi} /></li>)}      
