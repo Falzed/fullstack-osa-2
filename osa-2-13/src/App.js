@@ -26,7 +26,9 @@ class App extends React.Component {
 
   changeDisplayedCountry = (country) => {
     console.log(country)
-    this.setState({ displayedCountry: country })
+    this.setState({ 
+      filter: country.name,
+      displayedCountry: country })
   }
 
   componentWillMount() {
