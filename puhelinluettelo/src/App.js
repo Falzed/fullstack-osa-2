@@ -68,25 +68,51 @@ class App extends React.Component {
         window.confirm(
           `${vanhaHlo.name} on jo luettelossa, korvataanko vanha numero uudella?`)
       ) {
-        const personObject = {
-          name: this.state.newName,
-          number: this.state.newNumber,
-          id: vanhaHlo.id
-        }
-        personService.update(vanhaHlo.id, personObject)
-        this.setState({
-          persons: this.state.persons.map(person => {
-            /* personObject.name === person.name ? personObject : person */
-            if(person.name===personObject.name) {
-              return personObject
-            } else {
-              return person
-            }
-          }),
-          notification: `Henkilön ${personObject.name} numero muutettu`
-        })
+        this.numeronKorvaus(vanhaHlo)
       }
     }
+  }
+
+  numeronKorvaus = (vanhaHlo) => {
+    const personObject = {
+      name: this.state.newName,
+      number: this.state.newNumber,
+      id: vanhaHlo.id
+    }
+    console.log("Kutsutaan update")
+    personService.update(vanhaHlo.id, personObject).then(()=> {
+      console.log("then-lohkon alku")
+      this.setState({
+        persons: this.state.persons.map(person => {
+          /* personObject.name === person.name ? personObject : person */
+          if(person.name===personObject.name) {
+            return personObject
+          } else {
+            return person
+          }
+        }),
+        notification: `Henkilön ${personObject.name} numero muutettu`
+      })
+      console.log("then-lohkon loppu")
+    }).catch(error => {
+      console.log("error cathatty")
+      personService
+        .create(personObject)
+        .then(response => {
+          console.log(this.state.persons)
+          this.setState({
+            persons: this.state.persons.map(person => {
+              /* personObject.name === person.name ? personObject : person */
+              if(person.name===personObject.name) {
+                return personObject
+              } else {
+                return person
+              }
+            }),
+            notification: `${personObject.name} lisätty uudestaan (oli poistettu aiemmin)`
+        })
+      })        
+    }) 
   }
 
   handleNameChange = (event) => {
